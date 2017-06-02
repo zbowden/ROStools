@@ -19,6 +19,7 @@ import rosbag, sys, csv
 import time
 import string
 import os #for file management make directory
+import os.path
 import shutil #for file management, copy file
 
 #verify correct input arguments: 1 or 2
@@ -52,6 +53,7 @@ for bagFile in listOfBagFiles:
 	bagContents = bag.read_messages()
 	bagName = bag.filename
 
+	bagBaseName = os.path.basename(bagName)
 
 	#create a new directory
 	folder = string.rstrip(bagName, ".bag")
@@ -59,7 +61,7 @@ for bagFile in listOfBagFiles:
 		os.makedirs(folder)
 	except:
 		pass
-	shutil.copyfile(bagName, folder + '/' + bagName)
+	shutil.copyfile(bagName, folder + '/' + bagBaseName)
 
 
 	#get list of topics from the bag
@@ -96,7 +98,9 @@ for bagFile in listOfBagFiles:
 				# write the value from each pair to the file
 				values = [str(t)]	#first column will have rosbag timestamp
 				for pair in instantaneousListOfData:
-					values.append(pair[1])
+					if len(pair)>1:
+						#print("pair: " + str(pair) + " values: " + str(values))
+						values.append(pair[1])
 				filewriter.writerow(values)
 	bag.close()
 print "Done reading all " + numberOfFiles + " bag files."

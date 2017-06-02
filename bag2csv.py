@@ -28,8 +28,9 @@ if (len(sys.argv) > 2):
 	print "or just 1  : 'bag2csv.py'"
 	sys.exit(1)
 elif (len(sys.argv) == 2):
-	listOfBagFiles = [sys.argv(1)]
-	print "reading only 1 bagfile: " + str(listOfBagFiles(0))
+	listOfBagFiles = [sys.argv[1]]
+	numberOfFiles = "1"
+	print "reading only 1 bagfile: " + str(listOfBagFiles[0])
 elif (len(sys.argv) == 1):
 	listOfBagFiles = [f for f in os.listdir(".") if f[-4:] == ".bag"]	#get list of only bag files in current dir.
 	numberOfFiles = str(len(listOfBagFiles))
